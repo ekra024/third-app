@@ -20,7 +20,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-      <h1 className="text-center text-2xl mt-4">This is my Home Page</h1>
         {children}
       </body>
     </html>
