@@ -1,29 +1,21 @@
-"use client";
 
-import { useEffect, useState } from "react";
-
-export default function Todos() {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(
-        "https://jsonplaceholder.typicode.com/todos?_limit=10",
-      );
-
-      const data = await res.json();
-      setTodos(data);
+export default async function Todos() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5',{
+    next: {
+      revalidate: 5000,
     }
-    fetchData();
-  }, []);
-
+  });
+  const todos = await res.json();
   console.log(todos);
 
   return (
     <div className="text-center">
-      <h1>All Todos are here</h1>
-      {todos.map((todo) => (
-        <h2 key={todo.id}>{todo.title}</h2>
+      <h1 className="text-2xl font-semibold">All Todos are here</h1>
+      {todos.map(({id, title, completed}) => (
+        <div className="mt-5 text-left mx-10" key={id} >
+          <input type="checkbox" checked={completed} readOnly />
+          <span className="ml-2">{title}</span>
+        </div>
       ))}
     </div>
   );
